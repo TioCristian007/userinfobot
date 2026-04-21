@@ -62,3 +62,8 @@ incidents.json
 # Zip / exports
 # =========================
 *.zip
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
