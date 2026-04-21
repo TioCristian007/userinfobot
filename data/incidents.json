@@ -1,3 +1,25 @@
 {
-  "incidents": []
+  "incidents": [
+    {
+      "id": "ejemplo.cl-1776807205504",
+      "domain": "ejemplo.cl",
+      "startedAt": "2026-04-21T20:53:35.233Z",
+      "detectedAt": "2026-04-21T21:33:25.504Z",
+      "layer": "NIC_CHILE",
+      "severity": "critical",
+      "summary": "Dominio no existe (NXDOMAIN). ¿Expiró el registro en NIC Chile?",
+      "findings": [
+        "NXDOMAIN en DNS-over-HTTPS"
+      ],
+      "http": {
+        "status": null,
+        "latencyMs": 11,
+        "viaCloudflare": false,
+        "cfRay": null,
+        "server": null
+      },
+      "resolved": false,
+      "resolvedAt": null
+    }
+  ]
 }
