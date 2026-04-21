@@ -1,0 +1,12 @@
+{
+  "sites": [
+    {
+      "domain": "ejemplo.cl",
+      "enabled": true,
+      "expectedStatus": 200,
+      "expectedContent": null,
+      "expectedNS": "cloudflare.com",
+      "notes": "Reemplazar por dominio real"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "site-monitor",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "24/7 monitor for static sites on CF Pages + Cloudflare + NIC Chile",
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "notify-test": "node scripts/notify-test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

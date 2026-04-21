@@ -1,0 +1,53 @@
+name: monitor
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/sites.json'
+      - 'scripts/**'
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run checks
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/check.mjs
+
+      - name: Commit results
+        run: |
+          git config user.name "monitor-bot"
+          git config user.email "monitor-bot@users.noreply.github.com"
+          git add data/status.json data/incidents.json
+          if git diff --staged --quiet; then
+            echo "No changes"
+          else
+            git commit -m "chore(monitor): update status [skip ci]"
+            # Retry push on race (concurrent runs)
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              sleep $((RANDOM % 5 + 1))
+            done
+          fi

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>site-monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header>
+  <div class="brand">
+    <span class="dot"></span>
+    <h1>site<span class="slash">/</span>monitor</h1>
+  </div>
+  <div class="meta">
+    <span id="lastRun">—</span>
+    <button id="btnConfig" class="ghost">config</button>
+    <button id="btnRefresh" class="ghost">reload</button>
+  </div>
+</header>
+
+<main>
+  <section class="stats">
+    <div class="stat"><label>sites</label><span id="sCount">0</span></div>
+    <div class="stat ok"><label>up</label><span id="sUp">0</span></div>
+    <div class="stat down"><label>down</label><span id="sDown">0</span></div>
+    <div class="stat"><label>avg latency</label><span id="sLat">—</span></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>sitios monitoreados</h2>
+      <button id="btnAdd" class="primary">+ agregar</button>
+    </div>
+    <div id="sitesTable" class="table"></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>log de incidentes</h2>
+      <div class="filters">
+        <button class="chip active" data-filter="all">todos</button>
+        <button class="chip" data-filter="open">abiertos</button>
+        <button class="chip" data-filter="resolved">resueltos</button>
+      </div>
+    </div>
+    <div id="incidentsList" class="incidents"></div>
+  </section>
+</main>
+
+<!-- Modal: agregar sitio -->
+<dialog id="addModal">
+  <form method="dialog">
+    <h3>agregar sitio</h3>
+    <label>dominio
+      <input name="domain" placeholder="ejemplo.cl" required pattern="^[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" />
+    </label>
+    <label>status esperado
+      <input name="expectedStatus" type="number" value="200" min="100" max="599" />
+    </label>
+    <label>contenido esperado <span class="hint">(opcional, substring)</span>
+      <input name="expectedContent" placeholder='ej: "Mi Sitio"' />
+    </label>
+    <label>notas <span class="hint">(opcional)</span>
+      <input name="notes" placeholder="cliente X" />
+    </label>
+    <footer>
+      <button value="cancel" class="ghost">cancelar</button>
+      <button id="saveSite" value="save" class="primary">guardar</button>
+    </footer>
+  </form>
+</dialog>
+
+<!-- Modal: config (repo + token) -->
+<dialog id="configModal">
+  <form method="dialog">
+    <h3>configuración</h3>
+    <p class="hint">
+      Se guarda solo en tu navegador (localStorage). El PAT de GitHub necesita scope <code>repo</code>.
+    </p>
+    <label>github owner
+      <input name="owner" placeholder="tu-usuario" required />
+    </label>
+    <label>github repo
+      <input name="repo" placeholder="site-monitor" required />
+    </label>
+    <label>branch
+      <input name="branch" placeholder="main" value="main" required />
+    </label>
+    <label>personal access token
+      <input name="token" type="password" placeholder="ghp_..." autocomplete="off" />
+      <span class="hint">fine-grained, permiso Contents: Read & Write</span>
+    </label>
+    <footer>
+      <button value="cancel" class="ghost">cancelar</button>
+      <button id="saveConfig" value="save" class="primary">guardar</button>
+    </footer>
+  </form>
+</dialog>
+
+<!-- Modal: detalle de sitio -->
+<dialog id="detailModal">
+  <div>
+    <h3 id="detailTitle">—</h3>
+    <pre id="detailBody"></pre>
+    <footer>
+      <button id="btnRemove" class="danger">eliminar sitio</button>
+      <button id="btnCloseDetail" class="ghost">cerrar</button>
+    </footer>
+  </div>
+</dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
