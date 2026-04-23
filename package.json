@@ -6,9 +6,14 @@
   "description": "24/7 monitor for static sites on CF Pages + Cloudflare + NIC Chile",
   "scripts": {
     "check": "node scripts/check.mjs",
-    "notify-test": "node scripts/notify-test.mjs"
+    "notify-test": "node scripts/notify-test.mjs",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "wrangler": "^4.84.1"
   }
 }
